@@ -32,7 +32,6 @@ public class Employee {
     public Employee() {}
 
     public Employee(String firstName, String middleName, String lastName, Department department) {
-        // this.employeeNumber = String.format("emp-%06d", getId()).replace(' ', '0');
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
