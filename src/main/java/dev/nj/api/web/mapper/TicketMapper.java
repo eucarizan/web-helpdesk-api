@@ -24,7 +24,7 @@ public class TicketMapper {
                 dto.title(),
                 dto.description(),
                 Severity.valueOf(dto.severity()),
-                Status.valueOf(dto.status())
+                Status.valueOfString(dto.status())
         );
     }
 }

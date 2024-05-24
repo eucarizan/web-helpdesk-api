@@ -27,10 +27,6 @@ public class TicketServiceImpl implements TicketService {
         return ticketMapper.toDto(getTicketById(id));
     }
 
-    private Ticket getTicketById(long id) {
-        return ticketRepository.findById(id).orElseThrow(TicketNotFoundException::new);
-    }
-
     @Override
     public List<TicketDto> getAll() {
         return ticketRepository.findAll().stream().map(ticketMapper::toDto).toList();
@@ -56,5 +52,9 @@ public class TicketServiceImpl implements TicketService {
     public void deleteTicket(long id) throws TicketNotFoundException {
         Ticket ticket = getTicketById(id);
         ticketRepository.delete(ticket);
+    }
+
+    private Ticket getTicketById(long id) {
+        return ticketRepository.findById(id).orElseThrow(TicketNotFoundException::new);
     }
 }
