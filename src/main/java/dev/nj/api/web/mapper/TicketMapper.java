@@ -16,6 +16,15 @@ public class TicketMapper {
     BasicMapper basicMapper;
 
     public TicketDto toDto(Ticket ticket) {
+        if (ticket.getAssignee() == null) {
+            return new TicketDto(
+                    ticket.getId(),
+                    ticket.getTitle(),
+                    ticket.getDescription(),
+                    ticket.getSeverity().toString(),
+                    ticket.getStatus().toString());
+        }
+
         return new TicketDto(
                 ticket.getId(),
                 ticket.getTitle(),
