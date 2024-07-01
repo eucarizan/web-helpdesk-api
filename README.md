@@ -42,7 +42,7 @@ RESTful API for a Web Help Desk Application
 - [x] `POST /api/ticket/{ticket-id}/assign/{employee-id}` : Assign a ticket to an employee
   - [x] : can only be assigned once
 - [x] `POST /api/ticket/{ticket-id}/watch/{employee-id}` : Add a watched ticket to an employee
-- [ ] `GET /api/ticket/employee/{id}` : Show tickets by employee number
+- [x] `GET /api/ticket/employee/{id}` : Show tickets by employee number
 
 <hr/>
 

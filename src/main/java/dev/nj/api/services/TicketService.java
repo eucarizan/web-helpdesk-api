@@ -1,5 +1,6 @@
 package dev.nj.api.services;
 
+import dev.nj.api.entities.Employee;
 import dev.nj.api.exceptions.EmployeeNotFoundException;
 import dev.nj.api.exceptions.TicketNotFoundException;
 import dev.nj.api.web.dto.NewTicketDto;
@@ -21,4 +22,6 @@ public interface TicketService {
     void addAssignee(long ticketId, long employeeId) throws TicketNotFoundException, EmployeeNotFoundException;
 
     void addWatcher(long ticketId, long employeeId) throws TicketNotFoundException, EmployeeNotFoundException;
+
+    List<TicketDto> getByEmployee(long employeeId);
 }

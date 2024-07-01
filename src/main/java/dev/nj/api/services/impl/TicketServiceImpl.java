@@ -82,6 +82,13 @@ public class TicketServiceImpl implements TicketService {
         ticketRepository.save(ticket);
     }
 
+    @Override
+    public List<TicketDto> getByEmployee(long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
+        return ticketRepository.findByAssignee(employee).stream().map(ticketMapper::toDto).toList();
+    }
+
+
     private Ticket getTicketById(long id) {
         return ticketRepository.findById(id).orElseThrow(TicketNotFoundException::new);
     }

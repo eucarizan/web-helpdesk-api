@@ -30,6 +30,11 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.getById(id));
     }
 
+    @GetMapping("/employee/{id}")
+    public ResponseEntity<List<TicketDto>> getByEmployee(@PathVariable long id) {
+        return ResponseEntity.ok(ticketService.getByEmployee(id));
+    }
+
     @PostMapping
     public ResponseEntity<TicketDto> addTicket(@RequestBody NewTicketDto newTicketDto) {
         return ResponseEntity.ok(ticketService.addTicket(newTicketDto));
