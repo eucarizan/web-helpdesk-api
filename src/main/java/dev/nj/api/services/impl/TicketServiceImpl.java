@@ -2,8 +2,11 @@ package dev.nj.api.services.impl;
 
 import dev.nj.api.dictionaries.Severity;
 import dev.nj.api.dictionaries.Status;
+import dev.nj.api.entities.Employee;
 import dev.nj.api.entities.Ticket;
+import dev.nj.api.exceptions.EmployeeNotFoundException;
 import dev.nj.api.exceptions.TicketNotFoundException;
+import dev.nj.api.repositories.EmployeeRepository;
 import dev.nj.api.repositories.TicketRepository;
 import dev.nj.api.services.TicketService;
 import dev.nj.api.web.dto.NewTicketDto;
@@ -19,6 +22,8 @@ public class TicketServiceImpl implements TicketService {
 
     @Autowired
     TicketRepository ticketRepository;
+    @Autowired
+    EmployeeRepository employeeRepository;
     @Autowired
     TicketMapper ticketMapper;
 
@@ -52,6 +57,24 @@ public class TicketServiceImpl implements TicketService {
     public void deleteTicket(long id) throws TicketNotFoundException {
         Ticket ticket = getTicketById(id);
         ticketRepository.delete(ticket);
+    }
+
+    @Override
+    public void addAssignee(long ticketId, long employeeId) {
+        Ticket ticket = getTicketById(ticketId);
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
+        ticket.setAssignee(employee);
+        employeeRepository.save(employee);
+        ticketRepository.save(ticket);
+    }
+
+    @Override
+    public void addWatcher(long ticketId, long employeeId) {
+        Ticket ticket = getTicketById(ticketId);
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
+        ticket.addWatcher(employee);
+        employeeRepository.save(employee);
+        ticketRepository.save(ticket);
     }
 
     private Ticket getTicketById(long id) {

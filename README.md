@@ -69,11 +69,11 @@ RESTful API for a Web Help Desk Application
 [
     {
 	"id": 1,
-	...
+	// employee details
     },
     {
 	"id": 2,
-	...
+	// employee details
     }
 ]
 ```

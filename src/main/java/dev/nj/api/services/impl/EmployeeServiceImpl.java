@@ -7,7 +7,9 @@ import dev.nj.api.repositories.EmployeeRepository;
 import dev.nj.api.services.EmployeeService;
 import dev.nj.api.web.dto.EmployeeDto;
 import dev.nj.api.web.dto.NewEmployeeDto;
+import dev.nj.api.web.dto.TicketDto;
 import dev.nj.api.web.mapper.EmployeeMapper;
+import dev.nj.api.web.mapper.TicketMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     EmployeeRepository employeeRepository;
     @Autowired
     EmployeeMapper employeeMapper;
+    @Autowired
+    TicketMapper ticketMapper;
 
     @Override
     public EmployeeDto getById(long id) throws EmployeeNotFoundException {
@@ -27,13 +31,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getAll() {
-        return employeeRepository.findAll();
+    public List<EmployeeDto> getAll() {
+        return employeeRepository.findAll().stream().map(employeeMapper::toDto).toList();
     }
 
     @Override
     public EmployeeDto addEmployee(NewEmployeeDto newEmployeeDto) {
-        Employee employee = employeeRepository.save(employeeMapper.toEntity(newEmployeeDto));
+        Employee newEmployee = employeeMapper.toEntity(newEmployeeDto);
+        newEmployee.setEmployeeNumber(1);
+        Employee employee = employeeRepository.save(newEmployee);
         employee.setEmployeeNumber(employee.getId());
         employeeRepository.save(employee);
         return employeeMapper.toDto(employee);
@@ -56,7 +62,21 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.delete(employee);
     }
 
-    private Employee getEmployeeById(long id) {
+    @Override
+    public List<TicketDto> getAssignedTickets(long id) throws EmployeeNotFoundException {
+        Employee employee = getEmployeeById(id);
+        return employee.getAssignedTickets().stream()
+                .map(ticketMapper::toDto).toList();
+    }
+
+    @Override
+    public List<TicketDto> getWatchedTickets(long id) throws EmployeeNotFoundException {
+        Employee employee = getEmployeeById(id);
+        return employee.getWatchedTickets().stream()
+                .map(ticketMapper::toDto).toList();
+    }
+
+    Employee getEmployeeById(long id) {
         return employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
     }
 }

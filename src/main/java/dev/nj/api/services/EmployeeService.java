@@ -4,6 +4,7 @@ import dev.nj.api.entities.Employee;
 import dev.nj.api.exceptions.EmployeeNotFoundException;
 import dev.nj.api.web.dto.EmployeeDto;
 import dev.nj.api.web.dto.NewEmployeeDto;
+import dev.nj.api.web.dto.TicketDto;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface EmployeeService {
      *
      * @return list of employees
      */
-    List<Employee> getAll();
+    List<EmployeeDto> getAll();
 
     /**
      * add new employee
@@ -48,5 +49,8 @@ public interface EmployeeService {
      */
     void deleteEmployee(long id) throws EmployeeNotFoundException;
 
-    // TODO: add ticket
+    // TODO: add ticket endpoints
+    List<TicketDto> getAssignedTickets(long id) throws EmployeeNotFoundException;
+
+    List<TicketDto> getWatchedTickets(long id) throws EmployeeNotFoundException;
 }

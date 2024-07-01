@@ -4,12 +4,12 @@ import dev.nj.api.entities.Employee;
 import dev.nj.api.services.EmployeeService;
 import dev.nj.api.web.dto.EmployeeDto;
 import dev.nj.api.web.dto.NewEmployeeDto;
+import dev.nj.api.web.dto.TicketDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +24,7 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @GetMapping
-    public List<Employee> getAll() {
+    public List<EmployeeDto> getAll() {
         return employeeService.getAll();
     }
 
@@ -48,6 +48,16 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteEmployee(@PathVariable long id) {
         employeeService.deleteEmployee(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/assigned-tickets")
+    public ResponseEntity<List<TicketDto>> getAssignedTickets(@PathVariable long id) {
+        return ResponseEntity.ok(employeeService.getAssignedTickets(id));
+    }
+
+    @GetMapping("/{id}/watched-tickets")
+    public ResponseEntity<List<TicketDto>> getWatchedTickets(@PathVariable long id) {
+        return ResponseEntity.ok(employeeService.getWatchedTickets(id));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

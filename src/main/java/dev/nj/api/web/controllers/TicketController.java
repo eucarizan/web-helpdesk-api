@@ -47,6 +47,18 @@ public class TicketController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{ticketId}/assign/{employeeId}")
+    public ResponseEntity<Void> addAssignee(@PathVariable("ticketId") long ticketId, @PathVariable("employeeId") long employeeId) {
+        ticketService.addAssignee(ticketId, employeeId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{ticketId}/watch/{employeeId}")
+    public ResponseEntity<Void> addWatcher(@PathVariable("ticketId") long ticketId, @PathVariable("employeeId") long employeeId) {
+        ticketService.addWatcher(ticketId, employeeId);
+        return ResponseEntity.noContent().build();
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {

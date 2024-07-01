@@ -3,6 +3,8 @@ package dev.nj.api.entities;
 import dev.nj.api.dictionaries.Department;
 import jakarta.persistence.*;
 
+import java.util.*;
+
 @Entity
 @Table(name = "employees")
 public class Employee {
@@ -11,7 +13,7 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "employee_number")
+    @Column(nullable = false, name = "employee_number")
     private String employeeNumber;
 
     @Column(name = "first_name")
@@ -27,7 +29,13 @@ public class Employee {
     @Column(name = "department")
     private Department department;
 
-    // TODO: relationship about tickets
+    @OneToMany(mappedBy = "assignee")
+//    @JsonIgnoreProperties({"assignee", "watchers"})
+    private Set<Ticket> assignedTickets = new HashSet<>();
+
+    @ManyToMany(mappedBy = "watchers")
+//    @JsonIgnoreProperties({"assignee", "watchers"})
+    private Set<Ticket> watchedTickets = new HashSet<>();
 
     public Employee() {}
 
@@ -80,5 +88,21 @@ public class Employee {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    void addAssignedTicket(Ticket ticket) {
+        assignedTickets.add(ticket);
+    }
+
+    public Set<Ticket> getAssignedTickets() {
+        return Collections.unmodifiableSet(assignedTickets);
+    }
+
+    void addWatchedTicket(Ticket ticket) {
+        watchedTickets.add(ticket);
+    }
+
+    public Set<Ticket> getWatchedTickets() {
+        return Collections.unmodifiableSet(watchedTickets);
     }
 }
