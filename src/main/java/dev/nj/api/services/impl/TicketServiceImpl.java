@@ -5,6 +5,7 @@ import dev.nj.api.dictionaries.Status;
 import dev.nj.api.entities.Employee;
 import dev.nj.api.entities.Ticket;
 import dev.nj.api.exceptions.EmployeeNotFoundException;
+import dev.nj.api.exceptions.TicketAlreadyAssignedException;
 import dev.nj.api.exceptions.TicketNotFoundException;
 import dev.nj.api.repositories.EmployeeRepository;
 import dev.nj.api.repositories.TicketRepository;
@@ -63,7 +64,11 @@ public class TicketServiceImpl implements TicketService {
     public void addAssignee(long ticketId, long employeeId) {
         Ticket ticket = getTicketById(ticketId);
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
-        ticket.setAssignee(employee);
+        try {
+            ticket.setAssignee(employee);
+        } catch (IllegalStateException ex) {
+            throw new TicketAlreadyAssignedException(ex.getMessage());
+        }
         employeeRepository.save(employee);
         ticketRepository.save(ticket);
     }

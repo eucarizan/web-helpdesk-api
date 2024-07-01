@@ -35,4 +35,8 @@ public class RestApiErrorHandler {
         return new ResponseEntity<>(Map.of("error", ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(TicketAlreadyAssignedException.class)
+    ResponseEntity<Object> handleTicketAlreadyAssignedException(TicketAlreadyAssignedException ex) {
+        return new ResponseEntity<>(Map.of("error", ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 }
