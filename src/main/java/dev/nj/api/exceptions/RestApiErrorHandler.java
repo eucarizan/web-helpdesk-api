@@ -29,4 +29,10 @@ public class RestApiErrorHandler {
     ResponseEntity<Object> handleTicketNotFoundException(TicketNotFoundException ex) {
         return new ResponseEntity<>(Map.of("error", ex.getMessage()), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(EmployeeHasAssignedTicketException.class)
+    ResponseEntity<Object> handleEmployeeHasTicketAssignedException(EmployeeHasAssignedTicketException ex) {
+        return new ResponseEntity<>(Map.of("error", ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
 }

@@ -2,6 +2,7 @@ package dev.nj.api.services.impl;
 
 import dev.nj.api.dictionaries.Department;
 import dev.nj.api.entities.Employee;
+import dev.nj.api.exceptions.EmployeeHasAssignedTicketException;
 import dev.nj.api.exceptions.EmployeeNotFoundException;
 import dev.nj.api.repositories.EmployeeRepository;
 import dev.nj.api.services.EmployeeService;
@@ -46,7 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void updateEmployee(long id, NewEmployeeDto employeeDto) throws EmployeeNotFoundException {
+    public void updateEmployee(long id, NewEmployeeDto employeeDto) {
         Employee employee = getEmployeeById(id);
 
         employee.setFirstName(employeeDto.firstName());
@@ -57,20 +58,23 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void deleteEmployee(long id) throws EmployeeNotFoundException {
+    public void deleteEmployee(long id) {
         Employee employee = getEmployeeById(id);
+        if (!employee.getAssignedTickets().isEmpty()) {
+            throw new EmployeeHasAssignedTicketException();
+        }
         employeeRepository.delete(employee);
     }
 
     @Override
-    public List<TicketDto> getAssignedTickets(long id) throws EmployeeNotFoundException {
+    public List<TicketDto> getAssignedTickets(long id) {
         Employee employee = getEmployeeById(id);
         return employee.getAssignedTickets().stream()
                 .map(ticketMapper::toDto).toList();
     }
 
     @Override
-    public List<TicketDto> getWatchedTickets(long id) throws EmployeeNotFoundException {
+    public List<TicketDto> getWatchedTickets(long id) {
         Employee employee = getEmployeeById(id);
         return employee.getWatchedTickets().stream()
                 .map(ticketMapper::toDto).toList();
