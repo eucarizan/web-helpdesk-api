@@ -5,7 +5,7 @@ RESTful API for a Web Help Desk Application
 
 ### Auth
 
-- [ ] [`POST /api/register`](#1-register-new-employee) : Register new employee
+- [ ] [`POST /api/register`](./ENDPOINTS.md#1-register-new-employee) : Register new employee
 - [ ] `POST /api/login` : Logging in an employee
 - [ ] `POST /api/logout` : Logging out of an employee
 
@@ -13,7 +13,7 @@ RESTful API for a Web Help Desk Application
 
 - [ ] all request with authentication
 - [ ] all request with authorization
-- [ ] [`GET /api/employee`](#4-show-all-employees) : Show all employees
+- [ ] [`GET /api/employee`](./ENDPOINTS.md#4-show-all-employees) : Show all employees
   - [x] get without pagination
   - [ ] get with pagination
 - [x] `GET /api/employee/{id}` : Show a specific employee by specified id
@@ -46,52 +46,3 @@ RESTful API for a Web Help Desk Application
 - [x] `GET /api/ticket/employee/{id}` : Show tickets by employee number
 
 <hr/>
-
-### 1. Register new employee
-*Request*: `POST /api/register`
-
-#### 1.1 registering a new employee with a valid request body
-
-*Request body*:
-```json
-{
-    "email": "<username>@<domain>.<extension>",
-    "password": "<string, at least 5 characters long>"
-}
-```
-
-*Response*: `200 OK`
-
-#### 1.2 registering a new employee with a valid request body but the email address is already taken
-#### 1.3 registering a new employee with an invalid email
-#### 1.4 registering a new employee with a too short password
-
-*Request body*:
-```json
-{
-    "email": "test@mail.org",
-    "password": "strongpassword"
-}
-```
-
-*Response*: `400 BAD REQUEST`
-<hr/>
-
-### 4. Show all employees
-*Request*: `GET /api/employee`
-
-*Response*: `200 OK`
-
-*Response body*:
-```json
-[
-    {
-	"id": 1,
-	// employee details
-    },
-    {
-	"id": 2,
-	// employee details
-    }
-]
-```
