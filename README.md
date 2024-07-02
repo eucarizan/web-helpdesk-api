@@ -14,6 +14,7 @@ RESTful API for a Web Help Desk Application
 - [ ] all request with authentication
 - [ ] all request with authorization
 - [ ] [`GET /api/employee`](#4-show-all-employees) : Show all employees
+  - [x] get without pagination
   - [ ] get with pagination
 - [x] `GET /api/employee/{id}` : Show a specific employee by specified id
 - [x] `POST /api/employee` : Create a new employee
@@ -26,17 +27,17 @@ RESTful API for a Web Help Desk Application
 - [ ] all request with authentication
 - [ ] all request with authorization
 - [ ] `GET /api/ticket` : Show all ticket
+  - [x] get without pagination
   - [ ] get with pagination
 - [x] `GET /api/ticket/{id}` : Show a specific ticket by specified id
 - [ ] `POST /api/ticket` : Create a new ticket
   - [x] : new ticket without assignee
-  - [ ] : new ticket with assignee
   - [x] : new ticket without watcher/s
+  - [ ] : new ticket with assignee
   - [ ] : new ticket with watcher/s
 - [ ] `PUT /api/ticket/{id}` : Update ticket details by specified id
-  - [ ] : update ticket add assignee
+  - [ ] : update ticket replace assignee
   - [ ] : update ticket remove assignee
-  - [ ] : update ticket add watcher/s
   - [ ] : update ticket remove watcher/s
 - [x] `DELETE /api/ticket/{id}` : Remove a ticket by specified id
 - [x] `POST /api/ticket/{ticket-id}/assign/{employee-id}` : Assign a ticket to an employee
