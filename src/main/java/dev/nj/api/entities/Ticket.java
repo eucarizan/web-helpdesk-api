@@ -104,7 +104,8 @@ public class Ticket {
             throw new NullPointerException("Can't set null employee");
         }
         if (employee.getWatchedTickets().contains(this)) {
-            throw new IllegalStateException("Ticket with id %d is already watched by employee with id %s".formatted(id, employee.getEmployeeNumber()));
+            throw new IllegalStateException("Ticket with id %d is already watched by employee with id %s"
+                    .formatted(id, employee.getEmployeeNumber()));
         }
         watchers.add(employee);
         employee.addWatchedTicket(this);
