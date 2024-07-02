@@ -4,6 +4,7 @@ import dev.nj.api.dictionaries.Severity;
 import dev.nj.api.dictionaries.Status;
 import dev.nj.api.entities.Employee;
 import dev.nj.api.entities.Ticket;
+import dev.nj.api.exceptions.EmployeeAlreadyWatchingTicketException;
 import dev.nj.api.exceptions.EmployeeNotFoundException;
 import dev.nj.api.exceptions.TicketAlreadyAssignedException;
 import dev.nj.api.exceptions.TicketNotFoundException;
@@ -29,7 +30,7 @@ public class TicketServiceImpl implements TicketService {
     TicketMapper ticketMapper;
 
     @Override
-    public TicketDto getById(long id) throws TicketNotFoundException {
+    public TicketDto getById(long id) {
         return ticketMapper.toDto(getTicketById(id));
     }
 
@@ -44,7 +45,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void updateTicket(long id, NewTicketDto updateTicketDto) throws TicketNotFoundException {
+    public void updateTicket(long id, NewTicketDto updateTicketDto) {
         Ticket ticket = getTicketById(id);
 
         ticket.setTitle(updateTicketDto.title());
@@ -55,7 +56,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void deleteTicket(long id) throws TicketNotFoundException {
+    public void deleteTicket(long id) {
         Ticket ticket = getTicketById(id);
         ticketRepository.delete(ticket);
     }
@@ -77,7 +78,11 @@ public class TicketServiceImpl implements TicketService {
     public void addWatcher(long ticketId, long employeeId) {
         Ticket ticket = getTicketById(ticketId);
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
-        ticket.addWatcher(employee);
+        try {
+            ticket.addWatcher(employee);
+        } catch (IllegalStateException ex) {
+            throw new EmployeeAlreadyWatchingTicketException(ex.getMessage());
+        }
         employeeRepository.save(employee);
         ticketRepository.save(ticket);
     }
@@ -90,6 +95,6 @@ public class TicketServiceImpl implements TicketService {
 
 
     private Ticket getTicketById(long id) {
-        return ticketRepository.findById(id).orElseThrow(TicketNotFoundException::new);
+        return ticketRepository.findById(id).orElseThrow(() -> new TicketNotFoundException(id));
     }
 }

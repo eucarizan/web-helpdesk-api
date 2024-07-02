@@ -89,7 +89,7 @@ public class Ticket {
             throw new NullPointerException("Can't set null employee");
         }
         if (this.assignee != null) {
-            throw new IllegalStateException("Ticket is already assigned");
+            throw new IllegalStateException("Ticket with id %d is already assigned".formatted(id));
         }
         this.assignee = employee;
         this.assignee.addAssignedTicket(this);
@@ -104,7 +104,7 @@ public class Ticket {
             throw new NullPointerException("Can't set null employee");
         }
         if (employee.getWatchedTickets().contains(this)) {
-            throw new IllegalStateException("Ticket is already watched by " + employee.getEmployeeNumber());
+            throw new IllegalStateException("Ticket with id %d is already watched by employee with id %s".formatted(id, employee.getEmployeeNumber()));
         }
         watchers.add(employee);
         employee.addWatchedTicket(this);

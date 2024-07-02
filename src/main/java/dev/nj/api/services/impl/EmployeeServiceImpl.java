@@ -61,7 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void deleteEmployee(long id) {
         Employee employee = getEmployeeById(id);
         if (!employee.getAssignedTickets().isEmpty()) {
-            throw new EmployeeHasAssignedTicketException();
+            throw new EmployeeHasAssignedTicketException(id);
         }
         employeeRepository.delete(employee);
     }
